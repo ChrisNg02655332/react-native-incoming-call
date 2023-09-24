@@ -1,18 +1,30 @@
 import * as React from 'react';
+import ramdomUuid from 'uuid-random';
+import { StyleSheet, View, Button } from 'react-native';
+// @ts-ignore
+import BackgroundTimer from 'react-native-background-timer';
+import { CallKeepService } from './CallKeepServices';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-incoming-call';
-
+CallKeepService.instance().setupCallKeep();
+BackgroundTimer.start();
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
-  }, []);
-
+  const [uuid] = React.useState(() => ramdomUuid());
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button
+        title="Display Call"
+        onPress={() => {
+          BackgroundTimer.setTimeout(
+            () => CallKeepService.instance().displayCall(uuid),
+            3000
+          );
+        }}
+      />
+
+      <Button
+        title="End Call"
+        onPress={() => CallKeepService.instance().endAllCall()}
+      />
     </View>
   );
 }
