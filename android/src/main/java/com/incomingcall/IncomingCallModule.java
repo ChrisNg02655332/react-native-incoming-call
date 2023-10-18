@@ -108,7 +108,7 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 //        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
 //        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
       getReactApplicationContext().startActivity(focusIntent);
     }else{
