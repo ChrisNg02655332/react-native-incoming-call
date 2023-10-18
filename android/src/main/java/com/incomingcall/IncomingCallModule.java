@@ -49,6 +49,7 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
       Log.d(TAG, "foregroundOptions can't null"  );
       return;
     }
+
     Intent intent = new Intent(getReactApplicationContext(), IncomingCallService.class);
     intent.putExtra("uuid", uuid);
     intent.putExtra("name",foregroundOptions.getString("notificationTitle") );
@@ -100,11 +101,14 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
     Intent focusIntent = context.getPackageManager().getLaunchIntentForPackage(packageName).cloneFilter();
     Activity activity = getCurrentReactActivity();
     boolean isOpened = activity != null;
+
     if (!isOpened) {
-      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK +
-        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
-        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
-        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK +
+//        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED +
+//        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
+//        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
       getReactApplicationContext().startActivity(focusIntent);
     }else{

@@ -83,7 +83,7 @@ public class IncomingCallService extends Service {
     if(action == Constants.ACTION_PRESS_DECLINE_CALL){
       Intent  buttonIntent= new Intent();
       buttonIntent.setAction(action);
-      return PendingIntent.getBroadcast(this,id , buttonIntent,PendingIntent.FLAG_UPDATE_CURRENT  | PendingIntent.FLAG_IMMUTABLE);
+      return PendingIntent.getBroadcast(this, id, buttonIntent,PendingIntent.FLAG_UPDATE_CURRENT  | PendingIntent.FLAG_IMMUTABLE);
     }
     Intent emptyScreenIntent = new Intent(this, NotificationReceiverActivity.class);
     emptyScreenIntent.setAction(action);
@@ -93,7 +93,6 @@ public class IncomingCallService extends Service {
   }
 
   private Notification buildNotification(Context context, Intent intent) {
-
     Intent emptyScreenIntent = new Intent(context, NotificationReceiverActivity.class);
     Bundle bundle = intent.getExtras();
     bundleData=bundle;
@@ -111,7 +110,7 @@ public class IncomingCallService extends Service {
 
     NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      NotificationChannel notificationChannel=new NotificationChannel(channelId, bundle.getString("channelName"), NotificationManager.IMPORTANCE_HIGH);
+      NotificationChannel notificationChannel= new NotificationChannel(channelId, bundle.getString("channelName"), NotificationManager.IMPORTANCE_HIGH);
       notificationChannel.setSound(sound,
         new AudioAttributes.Builder()
           .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)

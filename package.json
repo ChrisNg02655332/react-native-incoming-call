@@ -153,7 +153,7 @@
     "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
     "prepack": "bob build",
     "release": "release-it",
-    "example": "bun workspace react-native-incoming-call-example"
+    "example": "yarn workspace react-native-incoming-call-example"
   },
   "source": "src/index",
   "types": "lib/typescript/src/index.d.ts",

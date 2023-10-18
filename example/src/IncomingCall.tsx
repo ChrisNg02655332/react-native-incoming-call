@@ -5,7 +5,7 @@ export { IncomingCall };
 
 function IncomingCall() {
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Text>Incoming Call</Text>
     </View>
   );
