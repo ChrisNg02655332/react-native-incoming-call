@@ -144,7 +144,7 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 //        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
       Log.d("IncomingCallModule", "activity is not running, starting activity");
-      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK + Intent.FLAG_ACTIVITY_CLEAR_TOP);
       context.startActivity(focusIntent);
     }else{
       Log.d("IncomingCallModule", "activity is running");
