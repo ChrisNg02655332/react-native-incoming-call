@@ -49,8 +49,8 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-//    super.onCreate(savedInstanceState);
-    super.onCreate(null);
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.custom_incoming_call_rn);
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
       setShowWhenLocked(true);
@@ -72,19 +72,21 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
 
     Bundle bundle = getIntent().getExtras();
 
-      setContentView(R.layout.custom_incoming_call_rn);
+    if (bundle.containsKey("uuid")) {
+      uuid = bundle.getString("uuid");
+    }
+
       Fragment reactNativeFragment = new ReactFragment.Builder()
         .setComponentName(bundle.getString("mainComponent"))
         .setLaunchOptions(bundle)
-        .setFabricEnabled(true)
+//        .setFabricEnabled(true)
         .build();
+
       getSupportFragmentManager()
         .beginTransaction()
         .add(R.id.reactNativeFragment, reactNativeFragment)
         .commit();
-      if (bundle.containsKey("uuid")) {
-        uuid = bundle.getString("uuid");
-      }
+
 
   }
 
