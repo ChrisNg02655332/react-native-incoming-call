@@ -45,39 +45,6 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
     return NAME;
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.O_MR1)
-  @ReactMethod
-  public void dismissKeyguard(Activity activity){
-    KeyguardManager keyguardManager = (KeyguardManager) reactContext.getSystemService(
-      Context.KEYGUARD_SERVICE
-    );
-    boolean isLocked = keyguardManager.isKeyguardLocked();
-    if (isLocked) {
-      Log.d("CallkeepHelperModule", "lockscreen");
-      keyguardManager.requestDismissKeyguard(
-        activity,
-        new KeyguardManager.KeyguardDismissCallback() {
-          @Override
-          public void onDismissError() {
-            Log.d("CallkeepHelperModule", "onDismissError");
-          }
-
-          @Override
-          public void onDismissSucceeded() {
-            Log.d("CallkeepHelperModule", "onDismissSucceeded");
-          }
-
-          @Override
-          public void onDismissCancelled() {
-            Log.d("CallkeepHelperModule", "onDismissCancelled");
-          }
-        }
-      );
-    } else {
-      Log.d("CallkeepHelperModule", "unlocked");
-    }
-  }
-
   @ReactMethod
   public void displayNotification(String uuid, @Nullable String avatar,@Nullable int timeout, ReadableMap foregroundOptions) throws JSONException {
     Log.d(TAG, "displayNotification ui"  );
@@ -150,9 +117,6 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
       Log.d("IncomingCallModule", "activity is running");
       focusIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
       activity.startActivity(focusIntent);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-        dismissKeyguard(activity);
-      }
     }
   }
 
