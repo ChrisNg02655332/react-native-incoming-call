@@ -29,7 +29,7 @@ import com.facebook.react.bridge.ReadableArray;
 public class IncomingCallModule extends ReactContextBaseJavaModule {
   public static final String NAME = "IncomingCall";
   private static final String TAG = "IncomingCallModule";
-  public static ReactApplicationContext reactContext;
+  private static ReactApplicationContext reactContext;
 
   public IncomingCallModule(ReactApplicationContext context) {
     super(context);
@@ -69,7 +69,7 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
       intent.putExtra("payload",payload.toString());
     }
     intent.setAction(Constants.ACTION_SHOW_INCOMING_CALL);
-    getReactApplicationContext().startService(intent);
+    reactContext.startService(intent);
   }
 
   @ReactMethod
@@ -79,18 +79,17 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
     }
     Intent intent = new Intent(getReactApplicationContext(), IncomingCallService.class);
     intent.setAction(Constants.HIDE_NOTIFICATION_INCOMING_CALL);
-    getReactApplicationContext().stopService(intent);
+    this.reactContext.stopService(intent);
   }
 
   private Context getAppContext() {
-    return reactContext.getApplicationContext();
+    return this.reactContext.getApplicationContext();
   }
 
   public Activity getCurrentReactActivity() {
     return this.reactContext.getCurrentActivity();
   }
 
-  @SuppressLint("WrongConstant")
   @ReactMethod
   public void backToApp() {
     Context context = getAppContext();
@@ -110,7 +109,7 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 
       focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-      getReactApplicationContext().startActivity(focusIntent);
+      context.startActivity(focusIntent);
     }else{
       focusIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
       activity.startActivity(focusIntent);
