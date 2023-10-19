@@ -49,7 +49,8 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+//    super.onCreate(savedInstanceState);
+    super.onCreate(null);
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
       setShowWhenLocked(true);

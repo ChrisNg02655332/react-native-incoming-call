@@ -3,4 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.incomingcall">
 
+  <uses-permission android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS" />
 </manifest>
