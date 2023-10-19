@@ -1,13 +1,16 @@
 package com.incomingcall;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.facebook.infer.annotation.SuppressLint;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
@@ -40,6 +43,39 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
   @NonNull
   public String getName() {
     return NAME;
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+  @ReactMethod
+  public void dismissKeyguard(Activity activity){
+    KeyguardManager keyguardManager = (KeyguardManager) reactContext.getSystemService(
+      Context.KEYGUARD_SERVICE
+    );
+    boolean isLocked = keyguardManager.isKeyguardLocked();
+    if (isLocked) {
+      Log.d("CallkeepHelperModule", "lockscreen");
+      keyguardManager.requestDismissKeyguard(
+        activity,
+        new KeyguardManager.KeyguardDismissCallback() {
+          @Override
+          public void onDismissError() {
+            Log.d("CallkeepHelperModule", "onDismissError");
+          }
+
+          @Override
+          public void onDismissSucceeded() {
+            Log.d("CallkeepHelperModule", "onDismissSucceeded");
+          }
+
+          @Override
+          public void onDismissCancelled() {
+            Log.d("CallkeepHelperModule", "onDismissCancelled");
+          }
+        }
+      );
+    } else {
+      Log.d("CallkeepHelperModule", "unlocked");
+    }
   }
 
   @ReactMethod
@@ -107,12 +143,16 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 //        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD +
 //        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
+      Log.d("IncomingCallModule", "activity is not running, starting activity");
       focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
       context.startActivity(focusIntent);
     }else{
+      Log.d("IncomingCallModule", "activity is running");
       focusIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
       activity.startActivity(focusIntent);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+        dismissKeyguard(activity);
+      }
     }
   }
 
