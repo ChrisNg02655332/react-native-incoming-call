@@ -1,6 +1,6 @@
 {
   "name": "rn-incoming-call",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "author": "Support incoming call for Android only <chris.dungnguyen@gmail.com> (https://github.com/ChrisNg02655332)",
   "repository": "https://github.com/ChrisNg02655332/react-native-incoming-call",
   "main": "lib/commonjs/index",
