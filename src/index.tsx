@@ -54,7 +54,7 @@ export interface foregroundOptionsModel {
   answerText: string;
   declineText: string;
   notificationColor?: string;
-  notificationSound?: string; //raw
+  notificationSound?: string | null; //raw
   mainComponent: string; // must have a component to render Incoming call
   payload?: any; //more info
 }

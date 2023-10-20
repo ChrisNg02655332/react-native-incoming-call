@@ -1,12 +1,16 @@
 package com.incomingcall;
 
+import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -18,8 +22,13 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 public class IncomingCallActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
   private static final String TAG = "MessagingService";
   private static final String TAG_KEYGUARD = "Incoming:unLock";
+
+  private Button lnDeclineCall;
+  private Button lnAcceptCall;
+
   private String uuid = "";
   static boolean active = false;
+
   static IncomingCallActivity instance;
 
   public static IncomingCallActivity getInstance() {
@@ -47,6 +56,7 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
     super.onDestroy();
   }
 
+  @SuppressLint("MissingInflatedId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -72,9 +82,7 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
 
     Bundle bundle = getIntent().getExtras();
 
-    if (bundle.containsKey("uuid")) {
-      uuid = bundle.getString("uuid");
-    }
+    if (bundle.containsKey("mainComponent") && bundle.getString("mainComponent")!=null) {
 
       Fragment reactNativeFragment = new ReactFragment.Builder()
         .setComponentName(bundle.getString("mainComponent"))
@@ -87,11 +95,50 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
         .add(R.id.reactNativeFragment, reactNativeFragment)
         .commit();
 
+      return;
+    } else{
+      setContentView(R.layout.activity_call_incoming);
+    }
 
+    if (bundle != null) {
+      if (bundle.containsKey("uuid")) {
+        uuid = bundle.getString("uuid");
+      }
+    }
+
+    lnDeclineCall = findViewById(R.id.lnDeclineCall);
+    lnAcceptCall = findViewById(R.id.lnAcceptCall);
+
+    lnAcceptCall.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        acceptDialing();
+      }
+    });
+
+    lnDeclineCall.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        dismissDialing(Constants.ACTION_REJECTED_CALL);
+      }
+    });
   }
 
   public void dismissIncoming(String action) {
     dismissDialing(action);
+  }
+
+  private void acceptDialing() {
+    active=false;
+    WritableMap params = Arguments.createMap();
+    Bundle bundle = getIntent().getExtras();
+    if(bundle.containsKey("payload")){
+      params.putString("payload",bundle.getString("payload"));
+    }
+    params.putString("callUUID", uuid);
+    IncomingCallModule.sendEventToJs(Constants.RNNotificationAnswerAction, params);
+    stopService(new Intent(this, IncomingCallService.class));
+    finishAndRemoveTask();
   }
 
   private void dismissDialing(String action) {
@@ -105,20 +152,12 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
     params.putString("endAction",action);
     IncomingCallModule.sendEventToJs(Constants.RNNotificationEndCallAction, params);
     stopService(new Intent(this, IncomingCallService.class));
-    if (android.os.Build.VERSION.SDK_INT >= 21) {
-      finishAndRemoveTask();
-    } else {
-      finish();
-    }
+    finishAndRemoveTask();
   }
 
   public void destroyActivity(Boolean isReject) {
     active=isReject;
-    if (android.os.Build.VERSION.SDK_INT >= 21) {
-      finishAndRemoveTask();
-    } else {
-      finish();
-    }
+    finishAndRemoveTask();
   }
 
   @Override

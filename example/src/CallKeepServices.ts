@@ -13,12 +13,12 @@ const options: foregroundOptionsModel = {
   channelId: 'com.incomingcallexample',
   channelName: 'Incoming video call',
   notificationIcon: 'ic_launcher', //mipmap
-  notificationBody: '',
+  notificationBody: 'Hello',
   notificationTitle: 'Someone calling',
   answerText: 'Answer',
   declineText: 'Decline',
   notificationColor: 'colorAccent', //path color in android
-  notificationSound: undefined, //raw
+  notificationSound: null, //raw
   mainComponent: 'IncomingCall',
 };
 
