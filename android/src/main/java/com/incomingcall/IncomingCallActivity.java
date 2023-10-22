@@ -19,6 +19,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 
+
 public class IncomingCallActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
   private static final String TAG = "MessagingService";
   private static final String TAG_KEYGUARD = "Incoming:unLock";
@@ -56,11 +57,10 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
     super.onDestroy();
   }
 
-  @SuppressLint("MissingInflatedId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.custom_incoming_call_rn);
+
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
       setShowWhenLocked(true);
@@ -83,12 +83,13 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
     Bundle bundle = getIntent().getExtras();
 
     if (bundle.containsKey("mainComponent") && bundle.getString("mainComponent")!=null) {
-
+      setContentView(R.layout.custom_incoming_call_rn);
       Fragment reactNativeFragment = new ReactFragment.Builder()
         .setComponentName(bundle.getString("mainComponent"))
         .setLaunchOptions(bundle)
-//        .setFabricEnabled(true)
+        .setFabricEnabled(false)
         .build();
+
 
       getSupportFragmentManager()
         .beginTransaction()

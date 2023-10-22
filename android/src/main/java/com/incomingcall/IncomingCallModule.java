@@ -1,18 +1,13 @@
 package com.incomingcall;
 
 import android.app.Activity;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
-import com.facebook.infer.annotation.SuppressLint;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -27,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.facebook.react.bridge.ReadableArray;
+
 
 @ReactModule(name = IncomingCallModule.NAME)
 public class IncomingCallModule extends ReactContextBaseJavaModule {
@@ -111,7 +107,8 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 //        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
       Log.d("IncomingCallModule", "activity is not running, starting activity");
-      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK + Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK + Intent.FLAG_ACTIVITY_CLEAR_TASK + Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      focusIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       context.startActivity(focusIntent);
     }else{
       Log.d("IncomingCallModule", "activity is running");
