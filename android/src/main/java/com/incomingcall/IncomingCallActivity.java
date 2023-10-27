@@ -138,8 +138,8 @@ public class IncomingCallActivity extends AppCompatActivity implements DefaultHa
     }
     params.putString("callUUID", uuid);
     IncomingCallModule.sendEventToJs(Constants.RNNotificationAnswerAction, params);
-    stopService(new Intent(this, IncomingCallService.class));
-    finishAndRemoveTask();
+    // stopService(new Intent(this, IncomingCallService.class));
+    // finishAndRemoveTask();
   }
 
   private void dismissDialing(String action) {

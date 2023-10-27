@@ -39,6 +39,7 @@ public class IncomingCallService extends Service {
   // you can perform a click only once time
   private Bundle bundleData;
   private static final String TAG = "FullscreenService";
+
   public int onStartCommand(Intent intent, int flags, int startId) {
     String action = intent.getAction();
     if (action != null) {
@@ -218,6 +219,7 @@ public class IncomingCallService extends Service {
     };
     callhandle.postDelayed(handleTimeout, timeoutNumber);
   }
+
   public void cancelTimer(){
     if(handleTimeout != null){
       callhandle.removeCallbacks(handleTimeout);
