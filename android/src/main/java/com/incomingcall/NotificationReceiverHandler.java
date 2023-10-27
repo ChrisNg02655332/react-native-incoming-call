@@ -1,6 +1,7 @@
 package com.incomingcall;
 
 import android.annotation.SuppressLint;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -74,7 +75,8 @@ public class NotificationReceiverHandler {
     params.putString("callUUID", uuid);
     IncomingCallModule.sendEventToJs(eventName, params);
 
-    if (IncomingCallActivity.active == false) {
+    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+    if (myKM.inKeyguardRestrictedInputMode() == false) {
       context.stopService(new Intent(context, IncomingCallService.class));
     }
   }
