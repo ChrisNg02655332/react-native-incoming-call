@@ -1,7 +1,6 @@
 package com.incomingcall;
 
 import android.annotation.SuppressLint;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -74,11 +73,7 @@ public class NotificationReceiverHandler {
     params.putBoolean("accept", true);
     params.putString("callUUID", uuid);
     IncomingCallModule.sendEventToJs(eventName, params);
-
-    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-    if (myKM.inKeyguardRestrictedInputMode() == false) {
-      context.stopService(new Intent(context, IncomingCallService.class));
-    }
+    context.stopService(new Intent(context, IncomingCallService.class));
   }
 
   @SuppressLint("LongLogTag")
