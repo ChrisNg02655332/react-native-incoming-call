@@ -251,14 +251,6 @@ public class IncomingCallService extends Service {
     public void onReceive(Context context, Intent intent) {
       String action = intent.getAction();
       if (action != null) {
-        if(action.equals(Constants.ACTION_PRESS_ANSWER_CALL)) {
-          KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-          if (myKM.inKeyguardRestrictedInputMode()) {
-            //it is locked
-            cancelTimer();
-          }
-        }
-
         if(action.equals(Constants.ACTION_PRESS_DECLINE_CALL)){
           boolean canClick=NotificationReceiverHandler.getStatusClick();
           if(!canClick)return;

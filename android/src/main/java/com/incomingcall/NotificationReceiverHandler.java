@@ -73,7 +73,10 @@ public class NotificationReceiverHandler {
     params.putBoolean("accept", true);
     params.putString("callUUID", uuid);
     IncomingCallModule.sendEventToJs(eventName, params);
-    context.stopService(new Intent(context, IncomingCallService.class));
+
+    if (IncomingCallActivity.active == false) {
+      context.stopService(new Intent(context, IncomingCallService.class));
+    }
   }
 
   @SuppressLint("LongLogTag")
