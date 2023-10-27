@@ -1,5 +1,6 @@
 package com.incomingcall;
 
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -131,27 +132,27 @@ public class IncomingCallService extends Service {
       .setPriority(NotificationCompat.PRIORITY_MAX)
       .setCategory(NotificationCompat.CATEGORY_CALL)
       .setContentIntent(emptyPendingIntent)
-      .addAction(
-        0,
-        bundle.getString("declineText"),
-        onButtonNotificationClick(0,Constants.ACTION_PRESS_DECLINE_CALL,Constants.RNNotificationEndCallAction)
-      )
-      .addAction(
-        0,
-        bundle.getString("answerText"),
-        onButtonNotificationClick(1,Constants.ACTION_PRESS_ANSWER_CALL,Constants.RNNotificationAnswerAction)
-      )
       .setAutoCancel(true)
       .setOngoing(true)
       .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
       .setVibrate(new long[] { 0, 1000, 800})
-      .setSound(sound)
-      // Use a full-screen intent only for the highest-priority alerts where you
-      // have an associated activity that you would like to launch after the user
-      // interacts with the notification. Also, if your app targets Android 10
-      // or higher, you need to request the USE_FULL_SCREEN_INTENT permission in
-      // order for the platform to invoke this notification.
-      .setFullScreenIntent(emptyPendingIntent, true);
+      .setSound(sound);
+
+    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+    if (myKM.inKeyguardRestrictedInputMode() == false) {
+      //it is unlocked
+      notificationBuilder
+        .addAction(0, bundle.getString("declineText"), onButtonNotificationClick(0,Constants.ACTION_PRESS_DECLINE_CALL,Constants.RNNotificationEndCallAction))
+        .addAction(0, bundle.getString("answerText"), onButtonNotificationClick(1,Constants.ACTION_PRESS_ANSWER_CALL,Constants.RNNotificationAnswerAction));
+    }
+
+    // Use a full-screen intent only for the highest-priority alerts where you
+    // have an associated activity that you would like to launch after the user
+    // interacts with the notification. Also, if your app targets Android 10
+    // or higher, you need to request the USE_FULL_SCREEN_INTENT permission in
+    // order for the platform to invoke this notification.
+    notificationBuilder.setFullScreenIntent(emptyPendingIntent, true);
+
     if(bundle.getString("notificationColor") != null){
       notificationBuilder.setColor(getColorForResourceName(context,bundle.getString("notificationColor")));
     }
@@ -250,6 +251,14 @@ public class IncomingCallService extends Service {
     public void onReceive(Context context, Intent intent) {
       String action = intent.getAction();
       if (action != null) {
+        if(action.equals(Constants.ACTION_PRESS_ANSWER_CALL)) {
+          KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+          if (myKM.inKeyguardRestrictedInputMode()) {
+            //it is locked
+            cancelTimer();
+          }
+        }
+
         if(action.equals(Constants.ACTION_PRESS_DECLINE_CALL)){
           boolean canClick=NotificationReceiverHandler.getStatusClick();
           if(!canClick)return;
