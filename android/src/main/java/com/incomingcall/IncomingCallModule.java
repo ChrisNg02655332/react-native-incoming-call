@@ -77,10 +77,10 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 //    if (IncomingCallActivity.active) {
 //      IncomingCallActivity.getInstance().destroyActivity(false);
 //    }
-
+    Context context = getReactApplicationContext();
     KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
     if (myKM.inKeyguardRestrictedInputMode() == false) {
-      Intent intent = new Intent(getReactApplicationContext(), IncomingCallService.class);
+      Intent intent = new Intent(context, IncomingCallService.class);
       intent.setAction(Constants.HIDE_NOTIFICATION_INCOMING_CALL);
       this.reactContext.stopService(intent);
     }
