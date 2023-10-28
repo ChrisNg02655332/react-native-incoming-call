@@ -91,9 +91,9 @@ class RNIncomingCall {
     );
   };
 
-  hideNotification = () => {
+  hideNotification = (hide = true) => {
     if (!isAndroid) return;
-    IncomingCall.hideNotification();
+    IncomingCall.hideNotification(hide);
   };
 
   //function only work when open app from quit state
@@ -157,7 +157,7 @@ class RNIncomingCall {
   };
 
   answerCall = (uuid: string, payload?: string) => {
-    this.hideNotification();
+    this.hideNotification(false);
     const data = { callUUID: uuid, payload };
     DeviceEventEmitter.emit(
       RNNotificationEvent.RNNotificationAnswerAction,

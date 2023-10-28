@@ -139,7 +139,7 @@ public class IncomingCallService extends Service {
       .setSound(sound);
 
     KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-    if (myKM.inKeyguardRestrictedInputMode() == false) {
+    if (!myKM.inKeyguardRestrictedInputMode()) {
       //it is unlocked
       notificationBuilder
         .addAction(0, bundle.getString("declineText"), onButtonNotificationClick(0,Constants.ACTION_PRESS_DECLINE_CALL,Constants.RNNotificationEndCallAction))
