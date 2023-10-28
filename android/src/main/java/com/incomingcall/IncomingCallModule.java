@@ -1,6 +1,7 @@
 package com.incomingcall;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -76,9 +77,13 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
 //    if (IncomingCallActivity.active) {
 //      IncomingCallActivity.getInstance().destroyActivity(false);
 //    }
-    Intent intent = new Intent(getReactApplicationContext(), IncomingCallService.class);
-    intent.setAction(Constants.HIDE_NOTIFICATION_INCOMING_CALL);
-    this.reactContext.stopService(intent);
+
+    KeyguardManager myKM = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+    if (myKM.inKeyguardRestrictedInputMode() == false) {
+      Intent intent = new Intent(getReactApplicationContext(), IncomingCallService.class);
+      intent.setAction(Constants.HIDE_NOTIFICATION_INCOMING_CALL);
+      this.reactContext.stopService(intent);
+    }
   }
 
   private Context getAppContext() {
