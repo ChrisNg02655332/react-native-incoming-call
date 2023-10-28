@@ -1,12 +1,29 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Button, View, Text } from 'react-native';
+import RNIncomingCall from '../../src/index';
 
 export { IncomingCall };
 
-function IncomingCall() {
+function IncomingCall(props: any) {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Incoming Call</Text>
+      <Text>{props.uuid}</Text>
+
+      <View style={{ flexDirection: 'row', gap: 15 }}>
+        <Button
+          title="Decline"
+          onPress={() => {
+            RNIncomingCall.declineCall(props.uuid);
+          }}
+        />
+        <Button
+          title="Decline"
+          onPress={() => {
+            RNIncomingCall.answerCall(props.uuid);
+          }}
+        />
+      </View>
     </View>
   );
 }

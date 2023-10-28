@@ -72,13 +72,15 @@ public class IncomingCallModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void hideNotification() {
-    if (IncomingCallActivity.active) {
-      IncomingCallActivity.getInstance().destroyActivity(false);
-    }
+  public void hideNotification(Boolean hide) {
     Intent intent = new Intent(getReactApplicationContext(), IncomingCallService.class);
-    intent.setAction(Constants.HIDE_NOTIFICATION_INCOMING_CALL);
-    this.reactContext.stopService(intent);
+
+    if (IncomingCallActivity.active && hide) {
+      IncomingCallActivity.getInstance().destroyActivity(false);
+      intent.setAction(Constants.HIDE_NOTIFICATION_INCOMING_CALL);
+    }
+
+    reactContext.stopService(intent);
   }
 
   private Context getAppContext() {
