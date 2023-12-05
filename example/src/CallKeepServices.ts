@@ -75,12 +75,6 @@ export class CallKeepService {
           okButton: 'ok',
           selfManaged: true,
           additionalPermissions: [],
-          // foregroundService: {
-          //   channelId: 'com.incomingcallexample',
-          //   channelName: 'Incoming Call',
-          //   notificationTitle: 'Incoming Call',
-          //   notificationIcon: 'ic_launcher_round',
-          // },
         },
       });
       return {
