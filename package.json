@@ -109,7 +109,8 @@
     "useTabs": false
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "react-native": "src/index",
   "react-native-builder-bob": {
