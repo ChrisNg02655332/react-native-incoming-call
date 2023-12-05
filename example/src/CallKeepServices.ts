@@ -6,7 +6,9 @@ import {
   RESULTS,
   requestMultiple,
 } from 'react-native-permissions';
-import RNIncomingCall, { type foregroundOptionsModel } from '../../src/index';
+import RNIncomingCall, {
+  type foregroundOptionsModel,
+} from '@antbase/react-native-incoming-call';
 
 const appName = 'Incoming-Test';
 const options: foregroundOptionsModel = {

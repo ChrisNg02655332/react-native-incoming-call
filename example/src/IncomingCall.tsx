@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, View, Text } from 'react-native';
-import RNIncomingCall from '../../src/index';
+import RNIncomingCall from '@antbase/react-native-incoming-call';
 
 export { IncomingCall };
 

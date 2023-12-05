@@ -1,17 +1,17 @@
-# react-native-incoming-call
+# @antbase/react-native-incoming-call
 
 Chris Nguyen
 
 ## Installation
 
 ```sh
-npm install react-native-incoming-call
+npm install @antbase/react-native-incoming-call
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-incoming-call';
+import { multiply } from '@antbase/react-native-incoming-call';
 
 // ...
 
