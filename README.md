@@ -51,11 +51,27 @@ In `AndroidManifest.xml`:
 ## Usage
 
 ```js
-import { multiply } from '@antbase/react-native-incoming-call';
+import RNIncomingCall, { type foregroundOptionsModel } from '@antbase/react-native-incoming-call';
+
+const options: foregroundOptionsModel = {
+  channelId: 'com.incomingcallexample',
+  channelName: 'Incoming video call',
+  notificationIcon: 'ic_launcher', //mipmap
+  notificationBody: 'Hello',
+  notificationTitle: 'Someone calling',
+  answerText: 'Answer',
+  declineText: 'Decline',
+  notificationColor: 'colorAccent', //path color in android
+  notificationSound: null, //raw
+  mainComponent: 'IncomingCall',
+};
+
+RNIncomingCall.displayNotification(callUUID, null, 30000, options);
 
 // ...
 
-const result = await multiply(3, 7);
+// index.js
+AppRegistry.registerComponent('IncomingCall', () => YOUR_CUSTOM_COMPONENT);
 ```
 
 ## Contributing
